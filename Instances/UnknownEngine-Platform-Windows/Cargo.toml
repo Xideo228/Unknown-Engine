@@ -1,0 +1,7 @@
+[package]
+name = "UnknownEngine-Platform-Windows"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+UnknownEngine-Platform = { path = "../UnknownEngine-Platform" }
