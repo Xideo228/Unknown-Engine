@@ -3,7 +3,6 @@ use crate::{
     events::window_proc,
     sys::{
         constants::*,
-        types::*,
         user32::*
     },
     window::Win32Window

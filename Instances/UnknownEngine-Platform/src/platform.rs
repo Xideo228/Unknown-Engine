@@ -1,4 +1,4 @@
-use crate::window::WindowDescriptor;
+use crate::windowdescriptor::WindowDescriptor;
 
 pub trait Platform {
     type Window;

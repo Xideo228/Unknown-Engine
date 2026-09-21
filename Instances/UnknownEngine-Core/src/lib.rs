@@ -1,3 +1,4 @@
+#[warn(nonstandard_style)]
 pub struct Engine {
     running: bool,
 }
@@ -9,5 +10,5 @@ impl Engine {
 
     pub fn stop(&mut self) { self.running = false; }
 
-    pub fn isRunning(&self) -> bool { self.running }
+    pub fn is_running(&self) -> bool { self.running }
 }
