@@ -1,8 +1,10 @@
+use crate::window::WindowId;
+
 pub struct Window {
-    pub(crate) id: u32
+    pub(crate) id: WindowId
 }
 
 impl Window {
-    pub(crate) fn new(id: u32) -> Self { Self { id } }
-    pub fn id(&self) -> u32 { self.id }
+    pub(crate) fn new(id: WindowId) -> Self { Self { id } }
+    pub fn id(&self) -> WindowId { self.id }
 }

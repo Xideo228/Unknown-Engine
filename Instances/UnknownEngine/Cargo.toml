@@ -1,8 +1,0 @@
-[package]
-name = "UnknownEngine"
-version = "0.1.0"
-edition = "2024"
-
-[dependencies]
-UnknownEngine-Platform = {path = "../UnknownEngine-Platform"}
-UnknownEngine-Platform-Windows = {path = "../UnknownEngine-Platform-Windows"}

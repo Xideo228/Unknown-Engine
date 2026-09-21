@@ -5,5 +5,5 @@ members = [
     "Instances/UnknownEngine-Core",
     "Instances/UnknownEngine-Platform",
     "Instances/UnknownEngine-Platform-Windows",
-    "Instances/UnknownEngine"
+    "Example/UnknownEngine"
 ]
