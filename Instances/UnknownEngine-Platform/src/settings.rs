@@ -1,4 +1,5 @@
 #[derive(Debug, Clone)]
+#[repr(C)]
 pub struct WindowSettings {
     pub name: String,
     pub title: String,
@@ -8,15 +9,15 @@ pub struct WindowSettings {
 
     pub resizable: bool,
     pub decorated: bool,
-
+    
     pub vsync: bool,
     pub fullscreen: bool
 }
 
-impl Default for WindowSettings{
+impl Default for WindowSettings {
     fn default() -> Self {
         Self {
-            name: String::from("UnknownEngine"),
+            name: String::from("unknownengine"),
             title: String::from("Unknown Engine"),
 
             width: 1280,
@@ -26,7 +27,7 @@ impl Default for WindowSettings{
             decorated: true,
 
             vsync: true,
-            fullscreen: false
+            fullscreen: true
         }
     }
 }

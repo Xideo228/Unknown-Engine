@@ -7,6 +7,7 @@ use crate::{
     },
     window::Win32Window
 };
+/*
 use UnknownEngine_Platform::{
     Platform,
     WindowDescriptor
@@ -71,4 +72,4 @@ impl Platform for Win32Platform {
     fn should_close(&self) -> bool {
         self.should_close
     }
-}
+}*/
