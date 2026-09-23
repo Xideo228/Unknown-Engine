@@ -1,9 +1,7 @@
 [workspace]
-resolver = "3"
+resolver = "2"
 
 members = [
-    "Instances/UnknownEngine-Core",
-    "Instances/UnknownEngine-Platform",
-    "Instances/UnknownEngine-Platform-Windows",
-    "Example/UnknownEngine"
+    "Instances/UnknownEngine",
+    "Example/UnknownEngine-Test"
 ]

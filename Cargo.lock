@@ -5,22 +5,10 @@ version = 4
 [[package]]
 name = "UnknownEngine"
 version = "0.1.0"
-dependencies = [
- "UnknownEngine-Platform",
- "UnknownEngine-Platform-Windows",
-]
 
 [[package]]
-name = "UnknownEngine-Core"
-version = "0.1.0"
-
-[[package]]
-name = "UnknownEngine-Platform"
-version = "0.1.0"
-
-[[package]]
-name = "UnknownEngine-Platform-Windows"
+name = "UnknownEngine-Test"
 version = "0.1.0"
 dependencies = [
- "UnknownEngine-Platform",
+ "UnknownEngine",
 ]
