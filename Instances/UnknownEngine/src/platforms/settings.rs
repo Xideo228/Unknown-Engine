@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 #[derive(Debug, Clone)]
-=======
-#[derive(Clone)]
->>>>>>> 59178fed7e2bc0ce9546f9d2c5fd55c51b9741bf
 pub struct WindowSettings {
     pub name: String,
     pub title: String,

@@ -1,16 +1,10 @@
-/*use UnknownEngine_Platform::{
-    WindowManager,
-    WindowSettings
-};*/
-use std::io::{self, Write};
+use unknown_engine::*;
 
 fn main() {
-    //let window = WindowManager::create(WindowSettings::default());
-    print!("Нажмите Enter, чтобы продолжить...");
-    io::stdout().flush().unwrap();
+    let settings= WindowSettings::default();
+    let mut window = WindowManager::create(settings);
 
-    let mut buffer = String::new();
-    io::stdin().read_line(&mut buffer).unwrap();
-
-    println!("Продолжаем выполнение!");
+    while window.is_running() {
+        window.poll_event();
+    }
 }
