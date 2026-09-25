@@ -2,6 +2,9 @@ use std::ffi::c_void;
 
 pub type HMODULE = *mut c_void;
 pub type HWND = *mut c_void;
+pub type HDC = *mut c_void;
+pub type HGLRC = *mut c_void;
+
 pub type HINSTANCE = HMODULE;
 pub type LPCWSTR = *const u16;
 

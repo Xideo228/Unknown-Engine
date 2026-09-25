@@ -7,19 +7,9 @@ pub struct Win32Platform {
     is_running: bool
 }
 
-pub struct Win32Window {
-    pub(crate) settings: WindowSettings
-}
-
 impl Win32Platform {
     pub fn new() -> Self {
         Self { is_running: true }
-    }
-}
-
-impl Win32Window {
-    pub fn new(settings: WindowSettings) -> Self {
-        Self { settings: settings }
     }
 }
 
@@ -30,17 +20,17 @@ impl Platform for Win32Platform {
         unsafe {
             let class_name: Vec<u16> = format!("UnknownEngine_{}\0", settings.name).encode_utf16().collect();
             let title: Vec<u16> = format!("{}\0", settings.title).encode_utf16().collect();
-            let class = WndClassA {
+            let class = WndClassW {
                 style: 0,
-                wnd_proc: Some(window_proc),
+                lpfn_wnd_proc: Some(window_proc),
                 cb_cls_extra: 0,
                 cb_wnd_extra: 0,
                 h_instance: get_module_handle(),
                 h_icon: null_mut(),
                 h_cursor: null_mut(),
                 hbr_background: null_mut(),
-                menu_name: null(),
-                class_name: class_name.as_ptr()
+                lpsz_menu_name: null(),
+                lpsz_class_name: class_name.as_ptr()
             };
 
             RegisterClassW(&class);
@@ -48,9 +38,10 @@ impl Platform for Win32Platform {
             let hwnd = CreateWindowExW(0, class_name.as_ptr(), title.as_ptr(),
                 WS_OVERLAPPEDWINDOW, CW_USERDEFAULT, CW_USERDEFAULT, settings.width as i32, settings.height as i32,
                 null_mut(), null_mut(), null_mut(), null_mut());
+            let hdc = GetDC(hwnd);
 
             ShowWindow(hwnd, SW_SHOW);
-            Window::new(hwnd, null_mut())
+            Window::new(hwnd, hdc)
         }
     }
 }

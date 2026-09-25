@@ -2,17 +2,17 @@ use std::os::raw::c_void;
 use crate::platforms::windows::types::*;
 
 #[repr(C)]
-pub(crate) struct WndClassA {
+pub(crate) struct WndClassW {
     pub style: UINT,
-    pub wnd_proc: Option<unsafe extern "system" fn(HWND, UINT, WPARAM, LPARAM) -> LRESULT>,
+    pub lpfn_wnd_proc: Option<unsafe extern "system" fn(HWND, UINT, WPARAM, LPARAM) -> LRESULT>,
     pub cb_cls_extra: i32,
     pub cb_wnd_extra: i32,
     pub h_instance: HINSTANCE,
     pub h_icon: *mut c_void,
     pub h_cursor: *mut c_void,
     pub hbr_background: *mut c_void,
-    pub menu_name: LPCWSTR,
-    pub class_name: LPCWSTR
+    pub lpsz_menu_name: LPCWSTR,
+    pub lpsz_class_name: LPCWSTR
 }
 
 #[repr(C)]

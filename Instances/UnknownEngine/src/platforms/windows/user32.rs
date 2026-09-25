@@ -4,7 +4,7 @@ use crate::platforms::windows::{structs::*, types::*};
 
 #[link(name = "user32")]
 unsafe extern "system" {
-    pub fn RegisterClassW(class: *const WndClassA) -> u16;
+    pub fn RegisterClassW(class: *const WndClassW) -> u16;
     pub fn CreateWindowExW(ex_style: DWORD, class_name: LPCWSTR, window_name: LPCWSTR,
         style: DWORD, x: i32, y: i32, width: i32, height: i32, parent: HWND, menu: *mut c_void,
         instance: HINSTANCE,param: *mut c_void) -> HWND;
@@ -14,4 +14,5 @@ unsafe extern "system" {
     pub fn TranslateMessage(msg: *const MSG) -> i32;
     pub fn DispatchMessageW(msg: *const MSG) -> LRESULT;
     pub fn PostQuitMessage(exit_code: i32);
+    pub fn GetDC(hwnd: HWND) -> HDC;
 }
