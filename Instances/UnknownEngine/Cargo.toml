@@ -1,9 +1,8 @@
 [package]
-name = "UnknownEngine"
+name = "unknown_engine"
 version = "0.1.0"
 edition = "2024"
 
 [lib]
-crate-type = ["cdylib"]
-
-[dependencies]
+name = "unknown_engine"
+crate-type = ["cdylib", "rlib"]

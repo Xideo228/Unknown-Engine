@@ -1,6 +1,6 @@
 use std::ffi::c_void;
 
-use crate::platform::windows::{structs::*, types::*};
+use crate::platforms::windows::{structs::*, types::*};
 
 #[link(name = "user32")]
 unsafe extern "system" {
@@ -12,6 +12,6 @@ unsafe extern "system" {
     pub fn DefWindowProcA(hwnd: HWnd, msg: UInt, w_param: WParam, l_param: LParam) -> LResult;
     pub fn PeekMessageA(msg: *mut MSG, hwnd: HWnd, min: UInt, max: UInt, remove: UInt) -> i32;
     pub fn TranslateMessage(msg: *const MSG) -> i32;
-    pub fn DispatchMessage(msg: *const MSG) -> LResult;
+    pub fn DispatchMessageW(msg: *const MSG) -> LResult;
     pub fn PostQuitMessage(exit_code: i32);
 }
