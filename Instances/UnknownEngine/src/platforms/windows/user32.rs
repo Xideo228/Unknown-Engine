@@ -1,6 +1,6 @@
 use std::ffi::c_void;
 
-use crate::platforms::windows::{structs::*, types::*};
+use crate::platforms::{types::*, windows::structs::*};
 
 #[link(name = "user32")]
 unsafe extern "system" {

@@ -1,4 +1,4 @@
-use crate::platforms::windows::types::{DWORD, UINT};
+use crate::platforms::types::{DWORD, UINT};
 
 pub const WS_OVERLAPPEDWINDOW: DWORD = 0x00CF0000;
 pub const CW_USERDEFAULT: i32 = 0x80000000u32 as i32;

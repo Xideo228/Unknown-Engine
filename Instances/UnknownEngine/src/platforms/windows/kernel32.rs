@@ -1,4 +1,4 @@
-use super::types::HMODULE;
+use crate::platforms::types::HMODULE;
 
 #[link(name = "kernel32")]
 unsafe extern "system" {

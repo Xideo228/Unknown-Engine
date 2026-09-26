@@ -1,7 +1,5 @@
-use super::{
-    PFD::PixelFormatDescriptor,
-    types::HDC
-};
+use crate::platforms::*;
+use super::PFD::PixelFormatDescriptor;
 
 #[link(name = "gdi32")]
 unsafe extern "system" {

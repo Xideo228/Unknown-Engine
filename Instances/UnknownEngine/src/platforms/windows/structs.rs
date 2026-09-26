@@ -1,5 +1,5 @@
 use std::os::raw::c_void;
-use crate::platforms::windows::types::*;
+use crate::platforms::types::*;
 
 #[repr(C)]
 pub(crate) struct WndClassW {
