@@ -15,7 +15,7 @@ unsafe extern "system" {
 
 pub type WglCreateContextAttribsARB = unsafe extern "system" fn(hdc: HDC, share_context: HGLRC, attribs: *const i32) -> HGLRC;
 
-fn init(win: Window) {
+pub fn init(win: Window) {
     unsafe {
         let pixel_format = PixelFormatDescriptor {
             size: std::mem::size_of::<PixelFormatDescriptor>() as u16,
@@ -54,6 +54,7 @@ fn init(win: Window) {
         };
 
         let format = ChoosePixelFormat(win.hdc, &pixel_format);
+        SetPixelFormat(win.hdc, format, &pixel_format);
 
         let temp = wglCreateContext(win.hdc);
         if temp.is_null() { panic!("Failed to create WGL Context"); }

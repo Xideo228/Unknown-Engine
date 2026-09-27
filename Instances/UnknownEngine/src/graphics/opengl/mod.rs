@@ -1,6 +1,7 @@
 mod windows;
 mod constants;
 mod gl;
-mod loader;
 mod types;
-mod helper;
+
+pub use gl::GL;
+pub(crate) use windows::*;

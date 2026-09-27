@@ -41,12 +41,12 @@ impl Platform for Win32Platform {
             let hdc = GetDC(hwnd);
 
             ShowWindow(hwnd, SW_SHOW);
-            Window::new(hwnd, hdc)
+            Window::new(hwnd, hdc, true)
         }
     }
 }
 
-impl EventPump for Win32Platform {
+impl EventPump for Window {
     fn poll_event(&mut self) {
         unsafe {
             let mut msg = std::mem::zeroed::<MSG>();
