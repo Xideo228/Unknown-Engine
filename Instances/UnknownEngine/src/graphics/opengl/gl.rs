@@ -4,8 +4,7 @@ use std::{ffi::c_void,
         transmute_copy
     }
 };
-use crate::graphics::backend::GraphicsBackend;
-use super::windows::wglGetProcAddress;
+use crate::graphics::{backend::GraphicsBackend, opengl::constants::GL_COLOR_BUFFER_BIT};
 
 pub type GlClearColor = unsafe extern "system" fn (f32, f32, f32, f32);
 pub type GlClear = unsafe extern "system" fn (u32);
@@ -25,27 +24,17 @@ impl GL {
             get_string: load_function(&mut loader, b"glGetString\0")
         }
     }
-}
 
-impl GraphicsBackend for GL {
-    fn make_current(&self) {
-        todo!()
+    pub unsafe fn clear_color(&self, r: f32, g: f32, b: f32, a: f32) {
+        (self.clear_color)(r, g, b, a);
     }
 
-    fn swap_buffers(&self) {
-        todo!()
+    pub unsafe fn clear(&self) {
+        (self.clear)(GL_COLOR_BUFFER_BIT);
     }
 
-    fn Clear(buffer: u32) {
-        todo!()
-    }
-
-    fn ClearColor(r: f32, g: f32, b: f32, A: f32) {
-        todo!()
-    }
-
-    fn GetString(text: u32) -> *const u8 {
-        todo!()
+    pub unsafe fn get_string(&self, name: u32) -> *const u8 {
+        (self.get_string)(name)
     }
 }
 

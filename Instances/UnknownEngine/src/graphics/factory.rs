@@ -1,14 +1,14 @@
-use crate::{GL, GraphicsAPI, Window, graphics::{opengl::{self, wgl_proc_address, wglGetProcAddress}, traits::GraphicsContext}};
+use crate::{GL, GraphicsAPI, Window, graphics::{backend::OpenGLBackend, opengl::{self, wgl_proc_address, wglGetProcAddress}}};
 
 pub struct GraphicsFactory;
 
 impl GraphicsFactory {
-    pub fn create(api: GraphicsAPI, win: &Window) -> Box<dyn GraphicsContext> {
+    pub fn create(api: GraphicsAPI, win: &Window) -> GL {
         match api {
             GraphicsAPI::OpenGL => {
                 opengl::init(win);
-                unsafe { GL::load(|name| wgl_proc_address(name)); }
-                GL
+                let gl = unsafe{ GL::load(|name| wgl_proc_address(name)) };
+                gl
             }
         }
     }

@@ -73,5 +73,9 @@ pub fn init(win: &Window) {
 
 pub unsafe fn wgl_proc_address(name: &[u8]) -> *const c_void {
     let ptr = wglGetProcAddress(name.as_ptr() as *const i8);
-    ptr
+    if ptr.is_null() || ptr as usize == 1 || ptr as usize == 2 || ptr as usize == 3 || ptr as isize == -1 {
+        std::ptr::null()
+    } else {
+        ptr
+    }
 }
