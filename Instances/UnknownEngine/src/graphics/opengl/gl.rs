@@ -1,4 +1,10 @@
-use std::{ffi::c_void, mem::transmute};
+use std::{ffi::c_void,
+    mem::{
+        transmute,
+        transmute_copy
+    }
+};
+use crate::graphics::backend::GraphicsBackend;
 use super::windows::wglGetProcAddress;
 
 pub type GlClearColor = unsafe extern "system" fn (f32, f32, f32, f32);
@@ -12,21 +18,44 @@ pub struct GL {
 }
 
 impl GL {
-    pub unsafe fn load() -> Self {
-        let clear_color = transmute(wglGetProcAddress(b"glClearColor\0".as_ptr() as *const i8));
-        let clear = transmute(wglGetProcAddress(b"glClear\0".as_ptr() as *const i8));
-        let get_string = transmute(wglGetProcAddress(b"glGetString\0".as_ptr() as *const i8));
-
+    pub unsafe fn load<F>(mut loader: F) -> Self where F: FnMut(&'static [u8]) -> *const c_void {
         Self {
-            clear_color, clear, get_string
+            clear_color: load_function(&mut loader, b"glClearColor\0"),
+            clear: load_function(&mut loader, b"glClear\0"),
+            get_string: load_function(&mut loader, b"glGetString\0")
         }
+    }
+}
+
+impl GraphicsBackend for GL {
+    fn make_current(&self) {
+        todo!()
+    }
+
+    fn swap_buffers(&self) {
+        todo!()
+    }
+
+    fn Clear(buffer: u32) {
+        todo!()
+    }
+
+    fn ClearColor(r: f32, g: f32, b: f32, A: f32) {
+        todo!()
+    }
+
+    fn GetString(text: u32) -> *const u8 {
+        todo!()
     }
 }
 
 unsafe fn load_function<T, F>(loader: &mut F, name: &'static [u8]) -> T where F: FnMut(&'static [u8]) -> *const c_void {
     let ptr = loader(name);
     if ptr.is_null() {
-        panic!("Failed to load OpenGL function: {:?}", name);
+        panic!(
+            "Failed to load OpenGL function: {}",
+            String::from_utf8_lossy(&name[..name.len() - 1])
+        );
     }
-    std::mem::transmute_copy(&ptr)
+    transmute_copy(&ptr)
 }

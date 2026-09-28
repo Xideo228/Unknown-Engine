@@ -15,7 +15,7 @@ unsafe extern "system" {
 
 pub type WglCreateContextAttribsARB = unsafe extern "system" fn(hdc: HDC, share_context: HGLRC, attribs: *const i32) -> HGLRC;
 
-pub fn init(win: Window) {
+pub fn init(win: &Window) {
     unsafe {
         let pixel_format = PixelFormatDescriptor {
             size: std::mem::size_of::<PixelFormatDescriptor>() as u16,
@@ -25,20 +25,14 @@ pub fn init(win: Window) {
 
             color_bits: 32,
 
-            red_bits: 0,
-            red_shift: 0,
-            green_bits: 0,
-            green_shift: 0,
-            blue_bits: 0,
-            blue_shift: 0,
-            alpha_bits: 8,
-            alpha_shift: 0,
+            red_bits: 0, red_shift: 0,
+            green_bits: 0, green_shift: 0,
+            blue_bits: 0, blue_shift: 0,
+            alpha_bits: 8, alpha_shift: 0,
 
             accum_bits: 0,
-            accum_red_bits: 0,
-            accum_green_bits: 0,
-            accum_blue_bits: 0,
-            accum_alpha_bits: 0,
+            accum_red_bits: 0, accum_green_bits: 0,
+            accum_blue_bits: 0, accum_alpha_bits: 0,
 
             depth_bits: 24,
             stencil_bits: 8,
@@ -61,7 +55,7 @@ pub fn init(win: Window) {
 
         if wglMakeCurrent(win.hdc, temp) == 0 { panic!(); }
 
-        let proc = load(b"wglCreateContextAttribsARB\0").expect("wglCreateContextAttribsARB is unavailable");
+        let proc = wgl_proc_address(b"wglCreateContextAttribsARB\0");
         let create_context_attribs: WglCreateContextAttribsARB = std::mem::transmute(proc);
 
         let attribs = [
@@ -77,11 +71,7 @@ pub fn init(win: Window) {
     }
 }
 
-unsafe fn load(name: &'static [u8]) -> Option<*const c_void> {
+pub unsafe fn wgl_proc_address(name: &[u8]) -> *const c_void {
     let ptr = wglGetProcAddress(name.as_ptr() as *const i8);
-    if ptr.is_null() || ptr as usize == 1 || ptr as usize == 2 || ptr as usize == 3 || ptr as isize == -1 {
-        None
-    } else {
-        Some(ptr)
-    }
+    ptr
 }
