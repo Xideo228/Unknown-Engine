@@ -1,4 +1,6 @@
 #[derive(Debug, Clone, Copy)]
 pub enum GraphicsAPI {
-    OpenGL
+    OpenGL,
+    Vulkan,
+    DirectX11
 }

@@ -1,4 +1,4 @@
-use crate::{GL, GraphicsAPI, Window, graphics::{backend::OpenGLBackend, opengl::{self, wgl_proc_address, wglGetProcAddress}}};
+use crate::{GL, GraphicsAPI, Window, graphics::{backend::GraphicsBackend, opengl::self}};
 
 pub struct GraphicsFactory;
 
@@ -7,9 +7,11 @@ impl GraphicsFactory {
         match api {
             GraphicsAPI::OpenGL => {
                 opengl::init(win);
-                let gl = unsafe{ GL::load(|name| wgl_proc_address(name)) };
-                gl
+                GL::new(win)
             }
+
+            GraphicsAPI::Vulkan => todo!(),
+            GraphicsAPI::DirectX11 => todo!()
         }
     }
 }

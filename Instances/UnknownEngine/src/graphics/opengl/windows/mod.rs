@@ -1,4 +1,4 @@
-mod PFD;
+mod pfd;
 mod wgl;
 mod gdi32;
 

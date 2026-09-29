@@ -1,5 +1,5 @@
 use crate::platforms::*;
-use super::PFD::PixelFormatDescriptor;
+use super::pfd::PixelFormatDescriptor;
 
 #[link(name = "gdi32")]
 unsafe extern "system" {

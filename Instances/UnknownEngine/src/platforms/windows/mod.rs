@@ -7,4 +7,4 @@ mod event;
 
 pub use window::Win32Platform;
 
-pub(crate) use { kernel32::*, constants::*};
+pub(crate) use constants::*;
