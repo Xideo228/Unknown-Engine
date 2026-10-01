@@ -8,6 +8,6 @@ pub struct Window {
 
 impl Window {
     pub fn new(hwnd: *mut c_void, hdc: *mut c_void, is_running: bool) -> Self {
-        Self { hwnd, hdc, is_running }
+        Self { hwnd: hwnd, hdc: hdc, is_running: is_running }
     }
 }
