@@ -1,12 +1,15 @@
-use std::fmt::Error;
-use crate::HMODULE;
+use std::ffi::c_void;
+use super::{
+    library::Library,
+    //windows::WinLibrary
+};
 
-pub struct LibraryLoader {
-    handle: HMODULE
+pub struct _LibraryLoader {
+    handle: Box<dyn Library>
 }
 
-impl LibraryLoader {
-    pub fn load(name: &str) -> Result<Self, Error> {
-        todo!();
+impl _LibraryLoader {
+    pub fn _load(_lib: &str, _name: &str) -> Option<*mut c_void> {
+        todo!()
     }
 }

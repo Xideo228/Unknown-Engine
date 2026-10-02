@@ -1,6 +1,5 @@
 mod windows;
 mod constants;
-mod gl;
 
-pub use gl::GL;
+pub mod gl;
 pub(crate) use windows::*;

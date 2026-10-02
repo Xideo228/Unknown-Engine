@@ -1,4 +1,4 @@
-use crate::platforms::*;
+use crate::platforms::types::*;
 use super::pfd::PixelFormatDescriptor;
 
 #[link(name = "gdi32")]

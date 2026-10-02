@@ -1,7 +1,7 @@
-use crate::platforms::DWORD;
+use crate::platforms::types::DWORD;
 
 #[repr(C)]
-pub struct PixelFormatDescriptor {
+pub(crate) struct PixelFormatDescriptor {
     pub size: u16,
     pub version: u16,
     pub flags: DWORD,

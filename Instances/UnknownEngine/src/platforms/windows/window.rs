@@ -1,7 +1,18 @@
 use std::ptr::{null, null_mut};
-use crate::{logger::print, platforms::{platform::*, window::Window, windows::{
-    constants::*, event::window_proc, kernel32::get_module_handle, structs::*, user32::*
-}, *} };
+use crate::{
+    logger::print,
+    platforms::{
+        platform::*,
+        window::Window,
+        windows::{
+            constants::*,
+            event::window_proc,
+            kernel32::get_module_handle,
+            structs::*, user32::*
+        },
+        *
+    }
+};
 
 pub struct Win32Platform;
 

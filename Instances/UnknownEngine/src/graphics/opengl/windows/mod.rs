@@ -1,5 +1,5 @@
 mod pfd;
-mod wgl;
 mod gdi32;
 
-pub(crate) use wgl::*;
+pub(crate) mod loader;
+pub(crate) mod wgl;

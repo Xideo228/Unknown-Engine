@@ -1,7 +1,11 @@
 use std::{ffi::c_void, ptr::null_mut};
-
-use crate::{graphics::opengl::constants::{WGL_CONTEXT_CORE_PROFILE_BIT_ARB, WGL_CONTEXT_MAJOR_VERSION_ARB, WGL_CONTEXT_MINOR_VERSION_ARB, WGL_CONTEXT_PROFILE_MASK_ARB}, platforms::*};
-use super::{ pfd::PixelFormatDescriptor, gdi32::* };
+use crate::{
+    graphics::opengl::{self, constants::*}, library::windows::WinLibrary, platforms::{Window, types::*}
+};
+use super::{
+    pfd::PixelFormatDescriptor,
+    gdi32::*
+};
 
 #[link(name = "opengl32")]
 unsafe extern "system" {

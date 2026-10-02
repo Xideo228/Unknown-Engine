@@ -1,5 +1,12 @@
 use std::{ffi::c_void, mem::transmute_copy};
-use crate::{Window, graphics::{backend::GraphicsBackend, opengl::constants::*}};
+use super::windows::wgl::*;
+use crate::{
+    Window,
+    graphics::{
+        backend::GraphicsBackend,
+        opengl::constants::*
+    }
+};
 
 pub type GlClearColor = unsafe extern "system" fn (f32, f32, f32, f32);
 pub type GlClear = unsafe extern "system" fn (u32);
@@ -14,9 +21,9 @@ pub struct GL {
 impl GL {
     pub fn new(_window: &Window) -> Self {
         Self {
-            get_string: load_function(&mut |name| {super::wgl_get_proc_address(name)}, b"glGetString\0"),
-            clear: load_function(&mut |name| {super::wgl_get_proc_address(name)}, b"glClear\0"),
-            clear_color: load_function(&mut |name| {super::wgl_get_proc_address(name)}, b"glClearColor\0"),
+            get_string: load_function(&mut |name| { wgl_get_proc_address(name) }, b"glGetString\0"),
+            clear: load_function(&mut |name| { wgl_get_proc_address(name) }, b"glClear\0"),
+            clear_color: load_function(&mut |name| { wgl_get_proc_address(name) }, b"glClearColor\0"),
         }
     }
 }
@@ -37,6 +44,7 @@ impl GraphicsBackend for GL {
 
 fn load_function<T, F>(loader: &mut F, name: &'static [u8]) -> T where F: FnMut(&'static [u8]) -> *const c_void {
     let ptr = loader(name);
+
     if ptr.is_null() {
         panic!(
             "Failed to load OpenGL function: {}",

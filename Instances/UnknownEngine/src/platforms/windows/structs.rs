@@ -27,7 +27,7 @@ pub(crate) struct MSG {
 }
 
 #[repr(C)]
-pub struct Point {
+pub struct _Point {
     pub x: i32,
     pub y: i32
 }

@@ -1,3 +1,5 @@
+use crate::platforms::types::DWORD;
+
 pub const WGL_CONTEXT_MAJOR_VERSION_ARB: i32 = 0x2091;
 pub const WGL_CONTEXT_MINOR_VERSION_ARB: i32 = 0x2092;
 pub const WGL_CONTEXT_PROFILE_MASK_ARB: i32 = 0x9126;
@@ -8,3 +10,9 @@ pub const GL_COLOR_BUFFER_BIT: u32 = 0x00004000;
 pub const GL_VERSION: u32 = 0x1F02;
 pub const GL_VENDOR: u32 = 0x1F00;
 pub const GL_RENDERER: u32 = 0x1F01;
+
+pub const PFD_DRAW_TO_WINDOW: DWORD = 0x00000004;
+pub const PFD_SUPPORT_OPENGL: DWORD = 0x00000020;
+pub const PFD_DOUBLEBUFFER: DWORD = 0x00000001;
+pub const PFD_TYPE_RGBA: u8 = 0;
+pub const PFD_MAIN_PLANE: u8 = 0;
