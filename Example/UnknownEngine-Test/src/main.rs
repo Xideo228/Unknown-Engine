@@ -1,3 +1,5 @@
+use std::ffi::{CStr, c_char};
+
 use unknown_engine::*;
 use unknown_engine::backend::GraphicsBackend;
 
