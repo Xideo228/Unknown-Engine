@@ -7,10 +7,10 @@ use super::opengl::{
 pub struct GraphicsFactory;
 
 impl GraphicsFactory {
-    pub fn create(api: GraphicsAPI, win: &Window) -> GL {
+    pub fn create(api: GraphicsAPI, win: Window) -> GL {
         match api {
             GraphicsAPI::OpenGL => {
-                wgl::init(win);
+                wgl::init(&win);
                 GL::new(win)
             }
 

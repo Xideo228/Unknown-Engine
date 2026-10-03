@@ -5,9 +5,5 @@ struct WOpenGLL {
 }
 
 impl WOpenGLL {
-    fn new() -> Self {
-        Self {
-            opengl32: WinLibrary::load("opengl32.dll").expect("Failed to load opengl32.dll")
-        }
-    }
+    
 }

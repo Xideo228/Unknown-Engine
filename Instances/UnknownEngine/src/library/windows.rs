@@ -1,6 +1,12 @@
-use std::{ffi::{CString, OsStr, c_void}, os::windows::ffi::OsStrExt};
+use std::{
+    ffi::{
+        OsStr,
+        c_void
+    },
+    os::windows::ffi::OsStrExt
+};
 use crate::{
-    //library::library::Library,
+    library::library::Library,
     platforms::windows::kernel32::*,
     types::HMODULE
 };
@@ -9,8 +15,8 @@ pub struct WinLibrary {
     handle: HMODULE
 }
 
-impl WinLibrary {
-    pub fn load(name: &str) -> Option<Self> {
+impl Library for WinLibrary {
+    fn load(name: &str) -> Option<Self> {
         let wide: Vec<u16> = OsStr::new(name).encode_wide().chain(Some(0)).collect();
         let handle = unsafe { LoadLibraryW(wide.as_ptr()) };
 
@@ -21,8 +27,7 @@ impl WinLibrary {
         }
     }
 
-    pub fn get_proc_address(&self, name: &str) -> Option<*mut c_void> {
-        let name = CString::new(name).ok()?;
+    fn get_proc_address(&self, name: &[u8]) -> Option<*const c_void> {
         let address = unsafe { GetProcAddress(self.handle, name.as_ptr()) };
 
         if address.is_null() {

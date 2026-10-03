@@ -1,9 +1,16 @@
-pub fn print(warn: u8, text: &str) {
+pub enum LevelOfLog {
+    Info,
+    Warning,
+    Error,
+    Critical
+}
+
+pub fn print(warn: LevelOfLog, text: &str) {
     let level = match warn {
-        0 => "[INFO]",
-        1 => "[WARN]",
-        2 => "[ERR!]",
-        3 => "[CRIT]",
+        LevelOfLog::Info => "[INFO]",
+        LevelOfLog::Warning => "[WARN]",
+        LevelOfLog::Error => "[ERR!]",
+        LevelOfLog::Critical => "[CRIT]",
         _ => "[NULL]"
     };
     
