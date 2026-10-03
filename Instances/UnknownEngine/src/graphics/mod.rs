@@ -1,8 +1,7 @@
 mod enums;
 mod opengl;
 mod factory;
-mod backend;
 
 pub use enums::GraphicsAPI;
+pub mod backend;
 pub use factory::GraphicsFactory;
-pub use backend::GraphicsBackend;

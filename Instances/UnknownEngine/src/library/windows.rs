@@ -1,8 +1,6 @@
 use std::{ffi::{CString, OsStr, c_void}, os::windows::ffi::OsStrExt};
 use crate::{
-    //library::library::Library,
-    platforms::windows::kernel32::*,
-    types::HMODULE
+    library::library::Library, platforms::windows::kernel32::*, types::HMODULE
 };
 
 pub struct WinLibrary {
@@ -21,8 +19,7 @@ impl WinLibrary {
         }
     }
 
-    pub fn get_proc_address(&self, name: &str) -> Option<*mut c_void> {
-        let name = CString::new(name).ok()?;
+    pub fn get_proc_address(&self, name: &[u8]) -> Option<*const c_void> {
         let address = unsafe { GetProcAddress(self.handle, name.as_ptr()) };
 
         if address.is_null() {
