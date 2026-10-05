@@ -15,11 +15,11 @@ use crate::{
             gdi32
         }
     },
-    library::{
-        library::Library,
-        windows::WinLibrary
-    }
+    library::Library
 };
+
+#[cfg(target_os = "windows")]
+const OPENGL: &str = "opengl32.dll";
 
 type GlClearColor = unsafe extern "system" fn (f32, f32, f32, f32);
 type GlClear = unsafe extern "system" fn (u32);
@@ -35,14 +35,14 @@ pub struct GL {
 
 impl GL {
     pub fn new(win: Window) -> Self {
-        let opengl32 = WinLibrary::load("opengl32.dll");
+        let opengl32 = Library::new(OPENGL).expect("Failed to load library");
 
         Self {
             window: win,
 
-            get_string: load_function(&mut |name| { wgl_get_proc_address(name) }, b"glGetString\0"),
-            clear: load_function(&mut |name| { wgl_get_proc_address(name) }, b"glClear\0"),
-            clear_color: load_function(&mut |name| { wgl_get_proc_address(name) }, b"glClearColor\0"),
+            get_string: load_function(&opengl32, &mut |name| { wgl_get_proc_address(name) }, b"glGetString\0"),
+            clear: load_function(&opengl32, &mut |name| { wgl_get_proc_address(name) }, b"glClear\0"),
+            clear_color: load_function(&opengl32, &mut |name| { wgl_get_proc_address(name) }, b"glClearColor\0"),
         }
     }
 }
@@ -62,7 +62,7 @@ impl GraphicsBackend for GL {
             let c_str = CStr::from_ptr(ptr);
             match c_str.to_str() {
                 Ok(result) => result,
-                Err(e) => ""
+                Err(_) => ""
             }
         }
     }
@@ -72,12 +72,11 @@ impl GraphicsBackend for GL {
     }
 }
 
-fn load_function<T, F>(loader: &mut F, name: &'static [u8]) -> T where F: FnMut(&'static [u8]) -> *const c_void {
+fn load_function<T, F>(lib: &Library, loader: &mut F, name: &'static [u8]) -> T where F: FnMut(&'static [u8]) -> *const c_void {
     let mut ptr = loader(name);
 
     if ptr.is_null() {
-        let library = WinLibrary::load("opengl32").expect("Failed to load opengl32.dll");
-        ptr = WinLibrary::get_proc_address(&library, name).expect("Failed to load");
+        ptr = lib.get_function(name).expect("Failed to load");
     }
 
     if ptr.is_null() {

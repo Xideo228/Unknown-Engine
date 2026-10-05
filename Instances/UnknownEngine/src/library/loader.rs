@@ -1,15 +1,21 @@
 use std::ffi::c_void;
-use super::{
-    library::Library,
-    //windows::WinLibrary
-};
+use super::windows::WinLibrary;
 
-pub struct _LibraryLoader {
-    handle: Box<dyn Library>
+#[cfg(target_os = "windows")]
+type PlatformLibrary = WinLibrary;
+
+pub struct Library {
+    handle: PlatformLibrary
 }
 
-impl _LibraryLoader {
-    pub fn _load(_lib: &str, _name: &str) -> Option<*mut c_void> {
-        todo!()
+impl Library {
+    pub fn new(name: &str) -> Option<Self> {
+        Some(Self {
+            handle: PlatformLibrary::new(name)?
+        })
+    }
+
+    pub fn get_function(&self, name: &[u8]) -> Option<*const c_void> {
+        self.handle.get_function(name)
     }
 }

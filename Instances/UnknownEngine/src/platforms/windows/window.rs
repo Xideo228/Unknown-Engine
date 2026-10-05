@@ -1,6 +1,6 @@
 use std::ptr::{null, null_mut};
 use crate::{
-    logger::print,
+    logger::*,
     platforms::{
         platform::*,
         window::Window,
@@ -62,6 +62,8 @@ impl EventPump for Window {
 
             while PeekMessageW(&mut msg, null_mut(), 0, 0, PM_REMOVE) != 0 {
                 if msg.message == WM_QUIT { self.is_running = false; }
+
+                //print(LevelOfLog::Info, format!("{:?}", &msg.message).as_str());
 
                 TranslateMessage(&msg);
                 DispatchMessageW(&msg);

@@ -10,8 +10,7 @@ pub fn print(warn: LevelOfLog, text: &str) {
         LevelOfLog::Info => "[INFO]",
         LevelOfLog::Warning => "[WARN]",
         LevelOfLog::Error => "[ERR!]",
-        LevelOfLog::Critical => "[CRIT]",
-        _ => "[NULL]"
+        LevelOfLog::Critical => "[CRIT]"
     };
     
     println!("{} | {}", level, text);

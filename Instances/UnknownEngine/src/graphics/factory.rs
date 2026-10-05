@@ -1,4 +1,10 @@
-use crate::{GraphicsAPI, Window, graphics::backend::GraphicsBackend};
+use crate::{
+    Window,
+    graphics::{
+        GraphicsBackend,
+        GraphicsAPI
+    }
+};
 use super::opengl::{
     wgl,
     gl::*,

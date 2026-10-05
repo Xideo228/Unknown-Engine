@@ -1,4 +1,4 @@
 mod loader;
+mod windows;
 
-pub(crate) mod library;
-pub(crate) mod windows;
+pub use loader::Library;
