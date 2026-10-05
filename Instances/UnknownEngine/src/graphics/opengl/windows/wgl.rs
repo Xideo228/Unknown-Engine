@@ -1,6 +1,6 @@
 use std::{ffi::c_void, ptr::null_mut};
 use crate::{
-    graphics::opengl::{self, constants::*}, library::windows::WinLibrary, platforms::{Window, types::*}
+    graphics::opengl::constants::*, platforms::{Window, types::*}
 };
 use super::{
     pfd::PixelFormatDescriptor,

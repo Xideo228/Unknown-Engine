@@ -6,7 +6,6 @@ use std::{
     os::windows::ffi::OsStrExt
 };
 use crate::{
-    library::library::Library,
     platforms::windows::kernel32::*,
     types::HMODULE
 };
@@ -15,19 +14,19 @@ pub struct WinLibrary {
     handle: HMODULE
 }
 
-impl Library for WinLibrary {
-    fn load(name: &str) -> Option<Self> {
+impl WinLibrary {
+    pub fn new(name: &str) -> Option<Self> {
         let wide: Vec<u16> = OsStr::new(name).encode_wide().chain(Some(0)).collect();
         let handle = unsafe { LoadLibraryW(wide.as_ptr()) };
 
         if handle.is_null() {
             None
         } else {
-            Some(Self{ handle })
+            Some(Self { handle })
         }
     }
 
-    fn get_proc_address(&self, name: &[u8]) -> Option<*const c_void> {
+    pub fn get_function(&self, name: &[u8]) -> Option<*const c_void> {
         let address = unsafe { GetProcAddress(self.handle, name.as_ptr()) };
 
         if address.is_null() {
