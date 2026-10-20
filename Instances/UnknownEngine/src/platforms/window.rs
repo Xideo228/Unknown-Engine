@@ -1,6 +1,6 @@
 use std::ffi::c_void;
 
-#[derive(Clone, Copy)]
+#[derive(Debug, Clone, Copy)]
 pub struct Window {
     pub(crate) is_running: bool,
     pub(crate) hwnd: *mut c_void,

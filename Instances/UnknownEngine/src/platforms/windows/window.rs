@@ -61,9 +61,7 @@ impl EventPump for Window {
             let mut msg = std::mem::zeroed::<MSG>();
 
             while PeekMessageW(&mut msg, null_mut(), 0, 0, PM_REMOVE) != 0 {
-                if msg.message == WM_QUIT { self.is_running = false; }
-
-                //print(LevelOfLog::Info, format!("{:?}", &msg.message).as_str());
+                if msg.message == WM_CLOSE { self.is_running = false; }
 
                 TranslateMessage(&msg);
                 DispatchMessageW(&msg);

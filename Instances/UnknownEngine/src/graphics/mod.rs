@@ -1,5 +1,6 @@
 mod enums;
 mod opengl;
+mod vulkan;
 mod factory;
 mod backend;
 
