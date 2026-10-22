@@ -8,13 +8,13 @@ use std::ffi::c_void;
 
 #[repr(C)]
 pub struct VkRenderPassCreateInfo {
-    sType: u32,
-    pNext: *const c_void,
-    flags: VkFlags,
-    attachmentCount: u32,
-    pAttachment: *const VkAttachmentDescription,
-    subpassCount: u32,
-    pSubpasses: *const VkSubpassDescription,
-    dependencyCount: u32,
-    pDependencies: *const VkSubpassDependency
+    pub sType: u32,
+    pub pNext: *const c_void,
+    pub flags: VkFlags,
+    pub attachmentCount: u32,
+    pub pAttachment: *const VkAttachmentDescription,
+    pub subpassCount: u32,
+    pub pSubpasses: *const VkSubpassDescription,
+    pub dependencyCount: u32,
+    pub pDependencies: *const VkSubpassDependency
 }

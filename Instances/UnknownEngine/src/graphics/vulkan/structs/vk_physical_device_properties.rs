@@ -6,14 +6,14 @@ use super::{
 
 #[repr(C)]
 pub struct VkPhysicalDeviceProperties {
-    apiVersion: u32,
-    driverVersion: u32,
-    vendorID: u32,
-    deviceID: u32,
-    deviceType: u32,
-    pipelineUUID: [u8; 16],
-    memoryProperties: [VkMemoryPropertyFlags; 32],
-    queueFamilyPropertiesCount: u32,
-    pQueueFamilyProperties: *const VkQueueFamilyProperties,
-    sparseProperties: VkSparseProperties
+    pub apiVersion: u32,
+    pub driverVersion: u32,
+    pub vendorID: u32,
+    pub deviceID: u32,
+    pub deviceType: u32,
+    pub pipelineUUID: [u8; 16],
+    pub memoryProperties: [VkMemoryPropertyFlags; 32],
+    pub queueFamilyPropertiesCount: u32,
+    pub pQueueFamilyProperties: *const VkQueueFamilyProperties,
+    pub sparseProperties: VkSparseProperties
 }

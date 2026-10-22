@@ -7,7 +7,7 @@ use std::ffi::{
 pub struct VkApplicationInfo {
     pub sType: u32,
     pub pNext: *const c_void,
-    pub pApplicationVersion: u32,
+    pub pApplicationName: *const c_char,
     pub applicationVersion: u32,
     pub pEngineName: *const c_char,
     pub engineVersion: u32,

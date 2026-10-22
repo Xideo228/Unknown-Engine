@@ -28,12 +28,13 @@ impl Platform for Win32Platform {
     fn create_window(&mut self, settings: WindowSettings) -> Self::Window {
         let class_name: Vec<u16> = format!("UnknownEngine_{}\0", settings.name).encode_utf16().collect();
         let title: Vec<u16> = format!("{}\0", settings.title).encode_utf16().collect();
+        let hinstance = get_module_handle();
         let class = WndClassW {
             style: 0,
             lpfn_wnd_proc: Some(window_proc),
             cb_cls_extra: 0,
             cb_wnd_extra: 0,
-            h_instance: get_module_handle(),
+            h_instance: hinstance,
             h_icon: null_mut(),
             h_cursor: null_mut(),
             hbr_background: null_mut(),
@@ -46,7 +47,7 @@ impl Platform for Win32Platform {
 
             let hwnd = CreateWindowExW(0, class_name.as_ptr(), title.as_ptr(),
                 WS_OVERLAPPEDWINDOW, CW_USERDEFAULT, CW_USERDEFAULT, settings.width as i32, settings.height as i32,
-                null_mut(), null_mut(), null_mut(), null_mut());
+                null_mut(), null_mut(), hinstance, null_mut());
             let hdc = GetDC(hwnd);
 
             ShowWindow(hwnd, SW_SHOW);

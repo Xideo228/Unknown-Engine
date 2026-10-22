@@ -5,7 +5,7 @@ fn main() {
     let settings= WindowSettings::default();
     let mut window = WindowManager::create(settings);
 
-    let mut renderer = GraphicsFactory::create(GraphicsAPI::OpenGL, window);
+    let mut renderer = GraphicsFactory::create(GraphicsAPI::Vulkan, window);
 
     println!("{}", renderer.get_string(0x1F02));
 

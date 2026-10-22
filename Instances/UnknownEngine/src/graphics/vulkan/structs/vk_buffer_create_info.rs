@@ -6,12 +6,12 @@ use crate::graphics::vulkan::types::{
 
 #[repr(C)]
 pub struct VkBufferCreateInfo {
-    sType: u32,
-    pNext: *const c_void,
-    flags: VkFlags,
-    size: u64,
-    usage: VkFlags,
-    sharingMode: VkSharingMode,
-    queueFamilyIndexCount: u32,
-    pQueueFamilyIndices: *const u32
+    pub sType: u32,
+    pub pNext: *const c_void,
+    pub flags: VkFlags,
+    pub size: u64,
+    pub usage: VkFlags,
+    pub sharingMode: VkSharingMode,
+    pub queueFamilyIndexCount: u32,
+    pub pQueueFamilyIndices: *const u32
 }

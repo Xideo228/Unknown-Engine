@@ -1,6 +1,6 @@
 #[repr(C)]
 pub struct VkMemoryRequirement {
-    size: u64,
-    alignment: u64,
-    memoryTypeBits: u32
+    pub size: u64,
+    pub alignment: u64,
+    pub memoryTypeBits: u32
 }

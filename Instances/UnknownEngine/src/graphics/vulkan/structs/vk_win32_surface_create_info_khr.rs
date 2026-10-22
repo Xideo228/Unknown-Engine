@@ -2,9 +2,9 @@ use std::ffi::c_void;
 
 #[repr(C)]
 pub struct VkWin32SurfaceCreateInfoKHR {
-    sType: u32,
-    pNext: *const c_void,
-    flags: u32,
-    hInstance: *mut c_void,
-    hWnd: *mut c_void
+    pub sType: u32,
+    pub pNext: *const c_void,
+    pub flags: u32,
+    pub hinstance: *mut c_void,
+    pub hwnd: *mut c_void
 }

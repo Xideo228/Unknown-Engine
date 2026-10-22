@@ -1,7 +1,10 @@
+use super::VkExtent2D;
+
 #[repr(C)]
+#[derive(Clone, Copy, Debug, Default)]
 pub struct VkQueueFamilyProperties {
-    queueFlags: u32,
-    queueCount: u32,
-    timestampValidBits: u32,
-    minImageTransferGranularity: [u32; 3]
+    pub queueFlags: u32,
+    pub queueCount: u32,
+    pub timestampValidBits: u32,
+    pub minImageTransferGranularity: VkExtent2D
 }

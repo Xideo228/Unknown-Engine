@@ -2,11 +2,11 @@ use crate::graphics::vulkan::types::VkFlags;
 
 #[repr(C)]
 pub struct VkSubpassDescription {
-    flags: VkFlags,
-    pipelineBindPoint: u32,
-    pColorAttachments: *const u32,
-    colorAttachmentCount: u32,
-    pDepthStencilAttachments: *const u32,
-    pPreserveAttachments: *const u32,
-    preserveAttachmentCount: u32
+    pub flags: VkFlags,
+    pub pipelineBindPoint: u32,
+    pub pColorAttachments: *const u32,
+    pub colorAttachmentCount: u32,
+    pub pDepthStencilAttachments: *const u32,
+    pub pPreserveAttachments: *const u32,
+    pub preserveAttachmentCount: u32
 }

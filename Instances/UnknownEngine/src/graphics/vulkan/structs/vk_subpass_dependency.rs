@@ -6,11 +6,11 @@ use crate::graphics::vulkan::types::{
 
 #[repr(C)]
 pub struct VkSubpassDependency {
-    srcSubpass: u32,
-    dstSubpass: u32,
-    srcStageMask: VkPipelineStageFlags,
-    dstStageMask: VkPipelineStageFlags,
-    srcAccessMask: VkAccessFlagBits,
-    dstAccessMask: VkAccessFlagBits,
-    dependencyFlags: VkFlags
+    pub srcSubpass: u32,
+    pub dstSubpass: u32,
+    pub srcStageMask: VkPipelineStageFlags,
+    pub dstStageMask: VkPipelineStageFlags,
+    pub srcAccessMask: VkAccessFlagBits,
+    pub dstAccessMask: VkAccessFlagBits,
+    pub dependencyFlags: VkFlags
 }

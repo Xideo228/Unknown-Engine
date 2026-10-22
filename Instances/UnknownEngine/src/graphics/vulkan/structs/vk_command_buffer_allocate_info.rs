@@ -2,9 +2,9 @@ use std::ffi::c_void;
 
 #[repr(C)]
 pub struct VkCommandBufferAllocateInfo {
-    sType: u32,
-    pNext: *const c_void,
-    commandPool: *mut c_void,
-    level: u32,
-    commandBufferCount: u32
+    pub sType: u32,
+    pub pNext: *const c_void,
+    pub commandPool: *mut c_void,
+    pub level: u32,
+    pub commandBufferCount: u32
 }

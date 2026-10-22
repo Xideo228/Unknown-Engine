@@ -1,5 +1,6 @@
 #[repr(C)]
+#[derive(Clone, Copy, Debug, Default)]
 pub struct VkExtent2D {
-    width: u32,
-    height: u32
+    pub width: u32,
+    pub height: u32
 }

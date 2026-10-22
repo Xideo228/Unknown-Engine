@@ -2,13 +2,13 @@ use crate::graphics::vulkan::types::*;
 
 #[repr(C)]
 pub struct VkAttachmentDescription {
-    flags: VkFlags,
-    format: VkFormat,
-    samples: VkSampleCountFlagBits,
-    loadOp: u32,
-    storeOp: u32,
-    stencilLoadOp: u32,
-    stencilStoreOp: u32,
-    initialLayout: u32,
-    finalLayout: u32
+    pub flags: VkFlags,
+    pub format: VkFormat,
+    pub samples: VkSampleCountFlagBits,
+    pub loadOp: u32,
+    pub storeOp: u32,
+    pub stencilLoadOp: u32,
+    pub stencilStoreOp: u32,
+    pub initialLayout: u32,
+    pub finalLayout: u32
 }
