@@ -5,7 +5,7 @@ pub enum LevelOfLog {
     Critical
 }
 
-pub fn print(warn: LevelOfLog, text: &str) {
+pub fn print(warn: LevelOfLog, text: String) {
     let level = match warn {
         LevelOfLog::Info => "[INFO]",
         LevelOfLog::Warning => "[WARN]",

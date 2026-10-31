@@ -1,9 +1,11 @@
 mod enums;
 mod opengl;
-mod vulkan;
 mod factory;
 mod backend;
+mod mesh;
 
 pub use enums::GraphicsAPI;
 pub use backend::GraphicsBackend;
 pub use factory::GraphicsFactory;
+
+pub use mesh::*;

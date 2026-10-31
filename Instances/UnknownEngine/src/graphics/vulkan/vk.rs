@@ -24,7 +24,9 @@ pub struct Vulkan {
     _instance: InstanceOwner,
 
     physical_device: VkPhysicalDevice,
-    queue_family_index: u32,
+
+    graphics_queue_family_index: u32,
+    present_queue_family_index: u32,
 
     clear_color: [f32; 4],
 
@@ -140,7 +142,7 @@ impl Vulkan {
                 "vkEnumeratePhysicalDevices(list)"
             )?;
 
-            let mut selected = None;
+            let mut selected: Option<(VkPhysicalDevice, u32, u32)> = None;
 
             'devices: for physical_device in devices {
                 let mut queue_count = 0;
@@ -153,23 +155,45 @@ impl Vulkan {
 
                 get_queue_family_properties(physical_device, &mut queue_count, queues.as_mut_ptr());
 
+                let graphics_index = queues.iter().enumerate().find(|(_, queue)| {
+                    queue.queueCount > 0 && queue.queueFlags & VK_QUEUE_GRAPHICS_BIT != 0
+                }).map(|(index, _)| index as u32);
+
+                let Some(graphics_index) = graphics_index else { continue; };
+                let mut present_index = None;
+
                 for (index, queue) in queues.iter().enumerate() {
                     if queue.queueCount == 0 { continue; }
-                    if queue.queueFlags & VK_QUEUE_GRAPHICS_BIT == 0 { continue; }
 
                     let mut present_supported: VkBool32 = 0;
 
                     let result = get_surface_support(physical_device, index as u32, surface, &mut present_supported);
-                    if result != VK_SUCCESS { continue; }
+                    if result != VK_SUCCESS { 
+                        eprintln!("vkGetPhysicalDeviceSurfaceSupportKHR failed: device={:p}, queue_family={}, VkResult={}",
+                            physical_device, index, result);
+
+                        return Err(VulkanError::ApiCall("vkGetPhysicalDeviceSurfaceSupportKHR", result));
+                    }
+
 
                     if present_supported != 0 {
-                        selected = Some((physical_device, index as u32));
-                        break 'devices;
+                        present_index = Some(index as u32);
+                        break;
                     }
+                }
+
+                if let Some(present_index) = present_index {
+                    selected = Some((
+                        physical_device,
+                        graphics_index,
+                        present_index
+                    ));
+
+                    break 'devices;
                 }
             }
 
-            let Some((physical_device, queue_family_index)) = selected
+            let Some((physical_device, graphics_queue_family_index, present_queue_family_index)) = selected
             else {
                 return Err(VulkanError::NoSuitableQueue);
             };
@@ -178,33 +202,36 @@ impl Vulkan {
                 _surface: surface_owner,
                 _instance: instance_owner,
                 physical_device,
-                queue_family_index,
+                graphics_queue_family_index,
+                present_queue_family_index,
                 clear_color: [0.05, 0.05, 0.08, 1.0],
                 _library: library,
             });
         }
     }
 
+    pub fn graphics_queue_family_index(&self) -> u32 { self.graphics_queue_family_index }
+    pub fn present_queue_family_index(&self) -> u32 { self.present_queue_family_index }
+    pub fn current_queue_family(&self) -> u32 { self.graphics_queue_family_index }
+
     pub fn set_clear_color(&mut self, r: f32, g: f32, b: f32, a: f32) { self.clear_color = [r, g, b, a] }
-    pub fn selected_queue_family(&self) -> u32 { self.queue_family_index }
     pub fn has_physical_device(&self) -> bool { !self.physical_device.is_null() }
 }
 
 impl GraphicsBackend for Vulkan {
-    fn clear(&mut self) {
+    fn begin_frame(&mut self) {
         todo!()
     }
 
-    fn clear_color(&mut self, r: f32, g: f32, b: f32, a: f32) {
-        self.set_clear_color(r, g, b, a);
+    fn end_frame(&mut self) {
+        todo!()
     }
 
-    fn get_string(&mut self, text: u32) -> &str {
+    fn set_clear_color(&mut self, _r: f32, _g: f32, _b: f32, _a: f32) {
+        todo!()
+    }
+    fn get_string(&mut self, _text: u32) -> &str {
         "Vulkan"
-    }
-
-    fn swap_buffer(&mut self) {
-        todo!()
     }
 }
 

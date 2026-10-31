@@ -9,24 +9,22 @@ use super::{
     opengl::{
         wgl,
         gl::*
-    },
-    vulkan::{
-        vk::*
     }
 };
 
 pub struct GraphicsFactory;
 
 impl GraphicsFactory {
-    pub fn create(api: GraphicsAPI, win: Window) -> Box <dyn GraphicsBackend> {
+    pub fn create(api: GraphicsAPI, win: Window) -> GL {
         match api {
             GraphicsAPI::OpenGL => {
                 wgl::init(&win);
-                Box::new(GL::new(win))
+                GL::new(win)
             }
 
             GraphicsAPI::Vulkan => {
-                Box::new(Vulkan::new(win).expect("Failed to initialize Vulkan backend"))
+                panic!("In current time Vulkan API not support");
+                //Box::new(Vulkan::new(win).expect("Failed to initialize Vulkan backend"))
             },
             GraphicsAPI::DirectX11 => todo!()
         }
