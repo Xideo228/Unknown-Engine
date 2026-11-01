@@ -1,4 +1,5 @@
 use std::{
+    ptr::null,
     collections::HashMap,
     mem::transmute_copy,
     ffi::{
@@ -7,12 +8,13 @@ use std::{
     }
 };
 use super::{
+    buffers::*,
     mesh::GLMesh,
     windows::wgl::*
 };
 use crate::{
     Window, graphics::{
-        backend::GraphicsBackend, mesh::{self, *}, opengl::{
+        backend::GraphicsBackend, mesh::*, opengl::{
             constants::*,
             gdi32
         }
@@ -66,42 +68,42 @@ pub struct GL {
     meshes: HashMap<u32, GLMesh>,
     next_id_mesh: u32,
 
-    clear_color: GlClearColor,
-    viewport: GlViewport,
-    clear: GlClear,
+    pub(crate) clear_color: GlClearColor,
+    pub(crate) viewport: GlViewport,
+    pub(crate) clear: GlClear,
 
-    get_string: GlGetString,
-    get_error: GlGetError,
+    pub(crate) get_string: GlGetString,
+    pub(crate) get_error: GlGetError,
 
-    create_shader: GlCreateShader,
-    delete_shader: GlDeleteShader,
-    shader_source: GlShaderSource,
-    attach_shader: GlAttachShader,
-    compile_shader: GlCompileShader,
-    get_shader_iv: GlGetShaderIv,
-    get_shader_info_log: GlGetShaderInfoLog,
+    pub(crate) create_shader: GlCreateShader,
+    pub(crate) delete_shader: GlDeleteShader,
+    pub(crate) shader_source: GlShaderSource,
+    pub(crate) attach_shader: GlAttachShader,
+    pub(crate) compile_shader: GlCompileShader,
+    pub(crate) get_shader_iv: GlGetShaderIv,
+    pub(crate) get_shader_info_log: GlGetShaderInfoLog,
 
-    create_program: GlCreateProgram,
-    link_program: GlLinkProgram,
-    get_program_iv: GlGetProgramIv,
-    get_program_info_log: GlGetProgramInfoLog,
-    delete_program: GlDeleteProgram,
-    use_program: GlUseProgram,
+    pub(crate) create_program: GlCreateProgram,
+    pub(crate) link_program: GlLinkProgram,
+    pub(crate) get_program_iv: GlGetProgramIv,
+    pub(crate) get_program_info_log: GlGetProgramInfoLog,
+    pub(crate) delete_program: GlDeleteProgram,
+    pub(crate) use_program: GlUseProgram,
 
-    gen_vertex_arrays: GlGenVertexArrays,
-    bind_vertex_array: GlBindVertexArray,
-    delete_vertex_arrays: GlDeleteVertexArrays,
+    pub(crate) gen_vertex_arrays: GlGenVertexArrays,
+    pub(crate) bind_vertex_array: GlBindVertexArray,
+    pub(crate) delete_vertex_arrays: GlDeleteVertexArrays,
 
-    gen_buffers: GlGenBuffers,
-    bind_buffer: GlBindBuffer,
-    buffer_data: GlBufferData,
-    delete_buffers: GlDeleteBuffers,
+    pub(crate) gen_buffers: GlGenBuffers,
+    pub(crate) bind_buffer: GlBindBuffer,
+    pub(crate) buffer_data: GlBufferData,
+    pub(crate) delete_buffers: GlDeleteBuffers,
 
-    enable_vertex_attrib_array: GlEnableVertexAttribArray,
-    vertex_attrib_pointer: GlVertexAttribPointer,
+    pub(crate) enable_vertex_attrib_array: GlEnableVertexAttribArray,
+    pub(crate) vertex_attrib_pointer: GlVertexAttribPointer,
 
-    draw_arrays: GlDrawArrays,
-    draw_elements: GlDrawElements
+    pub(crate) draw_arrays: GlDrawArrays,
+    pub(crate) draw_elements: GlDrawElements
 }
 
 impl GL {
@@ -258,54 +260,8 @@ impl GL {
         }
     }
 
-    pub fn create_vertex_array(&self) -> u32 {
-        let mut vao = 0;
-
-        unsafe { (self.gen_vertex_arrays)(1, &mut vao); }
-
-        vao
-    }
-
-    pub fn create_buffer(&self) -> u32 {
-        let mut vbo = 0;
-
-        unsafe { (self.gen_buffers)(1, &mut vbo); }
-
-        vbo
-    }
-
-    pub fn delete_vertex_array(&self, vao: u32) { unsafe { (self.delete_vertex_arrays)(1, &vao) } }
-    pub fn delete_buffer(&self, buffer: u32) { unsafe { (self.delete_buffers)(1, &buffer) } }
-    pub fn bind_vertex_array(&self, vao: u32) { unsafe { (self.bind_vertex_array)(vao); } } 
-    pub fn bind_buffer(&self, buffer: u32) { unsafe { (self.bind_buffer)(GL_ARRAY_BUFFER, buffer); } }
-    pub fn bind_index_buffer(&self, buffer: u32) { unsafe { (self.bind_buffer)(GL_ELEMENT_ARRAY_BUFFER, buffer); } }
     pub fn draw_arrays(&self, mode: u32, count: i32) { unsafe { (self.draw_arrays)(mode, 0, count); } }
-    pub fn draw_elements(&self, count: i32) { unsafe { (self.draw_elements)(GL_TRIANGLES, count, GL_UNSIGNED_INT, std::ptr::null()); } }
-    pub fn set_viewport(&self, x: i32, y: i32, width: i32, height: i32) { unsafe { (self.viewport)(x, y, width, height); } }
-
-    pub fn upload_vertex_data(&self, data: &[f32]) {
-        use std::mem::size_of_val;
-
-        unsafe {
-            (self.buffer_data)(GL_ARRAY_BUFFER, size_of_val(data) as isize, data.as_ptr() as *const c_void, GL_STATIC_DRAW);
-        }
-    }
-
-    pub fn upload_index_data(&self, data: &[u32]) {
-        use std::mem::size_of_val;
-
-        unsafe {
-            (self.buffer_data)(GL_ELEMENT_ARRAY_BUFFER, size_of_val(data) as isize, data.as_ptr() as *const c_void, GL_STATIC_DRAW);
-        }
-    }
-
-    pub fn vertex_attribute(&self, index: u32, size: i32, stride: i32, offset: usize) {
-        unsafe {
-            (self.enable_vertex_attrib_array)(index);
-
-            (self.vertex_attrib_pointer)(index, size, GL_FLOAT, 0, stride, offset as *const c_void);
-        }
-    }
+    pub fn draw_elements(&self, count: i32) { unsafe { (self.draw_elements)(GL_TRIANGLES, count, GL_UNSIGNED_INT, null()); } }
 
     pub fn check_error(&self) {
         unsafe {
@@ -344,59 +300,61 @@ impl GraphicsBackend for GL {
         }
     }
 
-    fn create_shader(&mut self, vertex_source: &str, fragment_source: &str) { todo!() }
+    fn create_shader(&mut self, _vertex_source: &str, _fragment_source: &str) { todo!() }
 
     fn create_mesh(&mut self, data: &MeshData) -> Result<MeshHandle, String> {
         let vertex_count = i32::try_from(data.vertex_count()).map_err(|_| "Too many vertices".to_string())?;
         let index_count = i32::try_from(data.index_count()).map_err(|_| "Too many indices".to_string())?;
 
-        let vao = self.create_vertex_array();
+        let vao = create_vertex_array(&self);
         if vao == 0 { return  Err("Failed to create VAO".into()); }
+        logger::print(logger::LevelOfLog::Info, format!("VAO: {}", vao));
 
-        let vbo = self.create_buffer();
+        let vbo = create_buffer(&self);
         if vbo == 0 {
-            self.delete_vertex_array(vao);
+            delete_vertex_array(&self, vao);
             return Err("Failed to create VBO".into());
         }
+        logger::print(logger::LevelOfLog::Info, format!("VBO: {}", vbo));
 
-        self.bind_vertex_array(vao);
+        bind_vertex_array(&self, vao);
 
-        self.bind_buffer(vbo);
-        self.upload_vertex_data(data.vertices());
-
+        bind_buffer(&self, vbo);
+        upload_vertex_data(&self, data.vertices());
+        
         let stride = i32::try_from(data.layout().stride()).map_err(|_| "Vertex stride is too large".to_string())?;
 
         for (index, (attribute, offset)) in data
             .layout().attribute().iter().zip(data.layout().offset()).enumerate()
-        {
-            self.vertex_attribute(index as u32, attribute.components as i32, stride, offset);
-        }
+        { vertex_attribute(self, index as u32, attribute.components as i32, stride, offset); }
 
         let ebo = if let Some(indices) = data.indices() {
-            let buffer = self.create_buffer();
+            let buffer = create_buffer(&self);
 
             if buffer == 0 {
-                self.bind_vertex_array(0);
-                self.delete_buffer(vbo);
-                self.delete_vertex_array(vao);
+                bind_vertex_array(&self, 0);
+                delete_buffer(&self, vbo);
+                delete_vertex_array(&self, vao);
 
                 return Err("Failed to create EBO".into());
             }
 
-            self.bind_index_buffer(buffer);
-            self.upload_index_data(indices);
+            logger::print(logger::LevelOfLog::Info, format!("EBO: {}", buffer));
+
+            bind_index_buffer(&self, buffer);
+            upload_index_data(&self, indices);
 
             Some(buffer)
         } else {
             None
         };
 
-        self.bind_vertex_array(0);
+        bind_vertex_array(&self, 0);
 
         let id = self.next_id_mesh;
         self.next_id_mesh = self.next_id_mesh.checked_add(1).ok_or_else(|| "Mesh handle limit reached".to_string())?;
 
-        self.meshes.insert(id, GLMesh {vao, vbo, ebo, vertex_count, index_count} );
+        self.meshes.insert(id, GLMesh { vao, vbo, ebo, vertex_count, index_count });
 
         Ok(MeshHandle::new(id))
     }
@@ -404,28 +362,23 @@ impl GraphicsBackend for GL {
     fn draw_mesh(&mut self, handle: MeshHandle) {
         let Some(mesh) = self.meshes.get(&handle.id()) else { return; };
 
-        self.bind_vertex_array(mesh.vao);
+        bind_vertex_array(&self, mesh.vao);
 
-        if mesh.ebo.is_some() {
-            self.draw_elements(mesh.index_count);
-        } else {
-            self.draw_arrays(GL_TRIANGLES, mesh.vertex_count);
-        }
+        if mesh.ebo.is_some() { self.draw_elements(mesh.index_count); }
+        else { self.draw_arrays(GL_TRIANGLES, mesh.vertex_count); }
 
-        self.bind_vertex_array(0);
+        bind_vertex_array(&self, 0);
     }
 
-    fn destroy_mesh(&mut self, handle: crate::graphics::MeshHandle) {
+    fn destroy_mesh(&mut self, handle: MeshHandle) {
         let Some(mesh) = self.meshes.remove(&handle.id()) else { return; };
 
-        self.bind_vertex_array(0);
+        bind_vertex_array(&self, 0);
 
-        if let Some(ebo) = mesh.ebo {
-            self.delete_buffer(ebo);
-        }
+        if let Some(ebo) = mesh.ebo { delete_buffer(&self, ebo); }
 
-        self.delete_buffer(mesh.vbo);
-        self.delete_vertex_array(mesh.vao);
+        delete_buffer(&self, mesh.vbo);
+        delete_vertex_array(&self, mesh.vao);
     }
 }
 
@@ -436,18 +389,13 @@ impl Drop for GL {
 }
 
 fn load_function<T, F>(lib: &Library, loader: &mut F, name: &'static [u8]) -> T where F: FnMut(&'static [u8]) -> *const c_void {
+    assert_eq!(size_of::<T>(), size_of::<*const c_void>(), "Invalid OpenGL function pointer size");
+
     let mut ptr = loader(name);
+    let address = ptr as usize;
 
-    if ptr.is_null() {
-        ptr = lib.get_function(name).expect("Failed to load");
-    }
-
-    if ptr.is_null() {
-        panic!(
-            "Failed to load OpenGL function: {}",
-            String::from_utf8_lossy(&name[..name.len() - 1])
-        );
-    }
+    if address <= 3 || address == usize::MAX { ptr = lib.get_function(name).expect("Failed to load OpenGL function"); } 
+    if ptr.is_null() { panic!("Failed to load OpenGL function: {}", String::from_utf8_lossy(&name[..name.len() - 1])); }
 
     logger::print(logger::LevelOfLog::Info, format!("Succesfully loaded: {}", str::from_utf8(name).unwrap()));
     unsafe { transmute_copy(&ptr) }

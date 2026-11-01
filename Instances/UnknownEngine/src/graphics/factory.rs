@@ -1,9 +1,6 @@
 use crate::{
     Window,
-    graphics::{
-        GraphicsBackend,
-        GraphicsAPI
-    }
+    graphics::GraphicsAPI
 };
 use super::{
     opengl::{

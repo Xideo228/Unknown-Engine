@@ -9,7 +9,6 @@ fn main() {
 
     println!("{}", renderer.get_string(0x1F02));
     renderer.set_clear_color(0.5, 0.0, 1.0, 1.0);
-    renderer.set_viewport(0, 0, 1280, 720);
 
     let vertex = "#version 330 core\n
     \nlayout (location = 0) in vec3 a_position;

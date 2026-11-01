@@ -1,6 +1,5 @@
 use std::ptr::{null, null_mut};
-use crate::{
-    logger::{self, *}, platforms::{
+use crate::platforms::{
         platform::*,
         window::Window,
         windows::{
@@ -10,8 +9,7 @@ use crate::{
             structs::*, user32::*
         },
         *
-    }
-};
+    };
 
 pub struct Win32Platform;
 
