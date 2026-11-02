@@ -1,5 +1,8 @@
-use unknown_engine::*;
-use unknown_engine::graphics::*;
+use unknown_engine::platforms::*;
+use unknown_engine::logger::*;
+use unknown_engine::graphics::{
+    *, mesh::*
+};
 
 fn main() {
     let settings= WindowSettings::default();
@@ -7,7 +10,7 @@ fn main() {
 
     let mut renderer = GraphicsFactory::create(GraphicsAPI::OpenGL, window);
 
-    println!("{}", renderer.get_string(0x1F02));
+    log(LevelOfLog::Info, format!("{}", renderer.get_string(0x1F02)));
     renderer.set_clear_color(0.5, 0.0, 1.0, 1.0);
 
     let vertex = "#version 330 core\n
@@ -26,7 +29,7 @@ fn main() {
     \tFragColor = vec4(v_color, 1.0);
     \n}";
 
-    let program = renderer.create_shader_program(vertex, fragment).expect("Failed to create shader");
+    let program = renderer.create_shader(vertex, fragment).expect("Failed to create shader");
 
     let vertices = vec![
         -0.5, -0.5, 0.0, 1.0, 0.0, 0.0,
@@ -51,7 +54,7 @@ fn main() {
     while window.is_running() {
         renderer.begin_frame();
 
-        renderer.use_program(program);
+        renderer.use_shader(program);
         renderer.draw_mesh(mesh);
 
         renderer.end_frame();

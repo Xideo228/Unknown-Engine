@@ -6,8 +6,10 @@ use std::{
     os::windows::ffi::OsStrExt
 };
 use crate::{
-    platforms::windows::kernel32::*,
-    types::HMODULE
+    platforms::{
+        windows::kernel32::*,
+        types::HMODULE
+    }
 };
 
 pub struct WinLibrary {

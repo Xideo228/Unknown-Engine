@@ -1,5 +1,5 @@
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-pub enum ShaderType {
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ShaderStage {
     Vertex,
     Fragment
 }

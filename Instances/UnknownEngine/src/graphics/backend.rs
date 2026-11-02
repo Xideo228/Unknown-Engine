@@ -1,4 +1,6 @@
-use crate::graphics::mesh::*;
+use crate::graphics::{
+    mesh::*, shader::*
+};
 
 pub trait GraphicsBackend {
     fn begin_frame(&mut self);
@@ -8,7 +10,9 @@ pub trait GraphicsBackend {
 
     fn get_string(&mut self, text: u32) -> &str;
 
-    fn create_shader(&mut self, vertex_source: &str, fragment_source: &str);
+    fn create_shader(&mut self, vertex_source: &str, fragment_source: &str) -> Result<ShaderHandle, String>;
+    fn destroy_shader(&mut self, handle: ShaderHandle);
+    fn use_shader(&mut self, handle: ShaderHandle);
 
     fn create_mesh(&mut self, data: &MeshData) -> Result<MeshHandle, String>;
     fn draw_mesh(&mut self, handle: MeshHandle);

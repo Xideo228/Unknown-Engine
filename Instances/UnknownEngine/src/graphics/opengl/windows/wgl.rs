@@ -9,12 +9,12 @@ use super::{
 
 #[link(name = "opengl32")]
 unsafe extern "system" {
-    pub fn wglCreateContext(hdc: HDC) -> HGLRC;
-    pub fn wglMakeCurrent(hdc: HDC, context: HGLRC) -> i32;
-    pub fn wglDeleteContext(context: HGLRC) -> i32;
-    pub fn wglGetCurrentContext() -> HGLRC;
-    pub fn wglGetCurrentDC() -> HDC;
-    pub fn wglGetProcAddress(name: *const i8) -> *const c_void;
+    fn wglCreateContext(hdc: HDC) -> HGLRC;
+    fn wglMakeCurrent(hdc: HDC, context: HGLRC) -> i32;
+    fn wglDeleteContext(context: HGLRC) -> i32;
+    fn wglGetCurrentContext() -> HGLRC;
+    fn wglGetCurrentDC() -> HDC;
+    fn wglGetProcAddress(name: *const i8) -> *const c_void;
 }
 
 pub type WglCreateContextAttribsARB = unsafe extern "system" fn(hdc: HDC, share_context: HGLRC, attribs: *const i32) -> HGLRC;

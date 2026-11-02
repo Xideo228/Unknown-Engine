@@ -1,4 +1,4 @@
-use crate::logger;
+use crate::logger::*;
 
 use super::{
     layout::VertexLayout,
@@ -23,7 +23,7 @@ impl MeshData {
         let components = layout.stride() / std::mem::size_of::<f32>();
 
         if vertices.is_empty() || vertices.len() % components != 0 {
-            logger::print(logger::LevelOfLog::Info, format!("{:?}", vertices));
+            log(LevelOfLog::Error, format!("Invalid Vertex data: {:?}", vertices));
             return Err(MeshError::InvalidVertexData);
         }
 

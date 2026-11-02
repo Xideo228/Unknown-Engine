@@ -1,6 +1,7 @@
 use crate::{
-    Window,
-    graphics::GraphicsAPI
+    graphics::{
+        GraphicsAPI, GraphicsBackend
+    }, platforms::Window
 };
 use super::{
     opengl::{
@@ -12,11 +13,11 @@ use super::{
 pub struct GraphicsFactory;
 
 impl GraphicsFactory {
-    pub fn create(api: GraphicsAPI, win: Window) -> GL {
+    pub fn create(api: GraphicsAPI, win: Window) -> Box<dyn GraphicsBackend> {
         match api {
             GraphicsAPI::OpenGL => {
                 wgl::init(&win);
-                GL::new(win)
+                Box::new(GL::new(win))
             }
 
             GraphicsAPI::Vulkan => {
