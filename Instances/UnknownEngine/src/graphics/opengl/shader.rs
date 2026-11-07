@@ -1,3 +1,7 @@
+use crate::{
+    graphics::shader::*,
+    logger::*
+};
 use super::{
     gl::GL,
     constants::*
@@ -115,4 +119,42 @@ fn get_program_error(gl: &GL, program: u32) -> String {
         (gl.functions.get_program_info_log)(program, lenght, null_mut(), buffer.as_mut_ptr() as *mut c_char);
         CStr::from_ptr(buffer.as_ptr() as *const c_char).to_string_lossy().into_owned()
     }
+}
+
+fn get_uniform_location(gl: &GL, handle: ShaderHandle, name: &str) -> Result<i32, String> {
+    let shader = gl.shaders.get(&handle.id()).ok_or_else(|| {
+        format!("Invalid shader handle: {}", handle.id())
+    })?;
+
+    let name = CString::new(name).map_err(|_| "Uniform name contains null byte".to_string())?;
+    let location = unsafe { (gl.functions.get_uniform_location)(shader.id(), name.as_ptr()) };
+
+    Ok(location)
+}
+
+fn set_uniform_mat4(gl: &mut GL, handle: ShaderHandle, name: &str, value: [f32; 16]) {
+    let location = match get_uniform_location(gl, handle, name) {
+        Ok(location) => location,
+        Err(error) => {
+            log(LevelOfLog::Error, error);
+            return;
+        }
+    };
+
+    if location == -1 { return; }
+
+    unsafe { (gl.functions.uniform_matrix_4fv)(location, 1, 0, value.as_ptr()); }
+}
+
+fn set_uniform_float(gl: &mut GL, handle: ShaderHandle, name: &str, value: f32) {
+    let location = match get_uniform_location(gl, handle, name) {
+        Ok(location) => location,
+        Err(error) => {
+            log(LevelOfLog::Error, error);
+            return;
+        }
+    };
+
+    if location == -1 { return; }
+    unsafe { (gl.functions.uniform_1f)(location, value); }
 }

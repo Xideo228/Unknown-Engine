@@ -39,6 +39,11 @@ type GlGetProgramIv = unsafe extern "system" fn (program: u32, pname: u32, param
 type GlGetProgramInfoLog = unsafe extern "system" fn (program: u32, max_lenght: i32,
     lenght: *mut i32, info_log: *mut c_char);
 
+type GlGetUniformLocation = unsafe extern "system" fn (program: u32, name: *const c_char) -> i32;
+type GlUniform1f = unsafe extern "system" fn (location: i32, value: f32);
+type GlUniform3f = unsafe extern "system" fn (location: i32, x: f32, y: f32, z: f32);
+type GlUniformMatrix4fv = unsafe extern "system" fn (location: i32, count: i32, transpose: u8, value: *const f32);
+
 type GlGenVertexArray = unsafe extern "system" fn (n: i32, arrays: *mut u32);
 type GlBinfVertexArray = unsafe extern "system" fn (array: u32);
 type GlDeleteVertexArray = unsafe extern "system" fn (n: i32, arrays: *const u32);
@@ -78,6 +83,11 @@ pub struct GLFunctions {
     pub(crate) delete_program: GlDeleteProgram,
     pub(crate) get_program_iv: GlGetProgramIv,
     pub(crate) get_program_info_log: GlGetProgramInfoLog,
+
+    pub(crate) get_uniform_location: GlGetUniformLocation,
+    pub(crate) uniform_1f: GlUniform1f,
+    pub(crate) uniform_3f: GlUniform3f,
+    pub(crate) uniform_matrix_4fv: GlUniformMatrix4fv,
 
     pub(crate) gen_vertex_arrays: GlGenVertexArray,
     pub(crate) bind_vertex_array: GlBinfVertexArray,
@@ -124,6 +134,11 @@ impl GLFunctions {
             delete_program: Self::load_function(&lib, b"glDeleteProgram\0"),
             get_program_iv: Self::load_function(&lib, b"glGetProgramiv\0"),
             get_program_info_log: Self::load_function(&lib, b"glGetProgramInfoLog\0"),
+
+            get_uniform_location: Self::load_function(&lib, b"glGetUniformLocation\0"),
+            uniform_1f: Self::load_function(&lib, b"glUniform1f\0"),
+            uniform_3f: Self::load_function(&lib, b"glUniform3f\0"),
+            uniform_matrix_4fv: Self::load_function(&lib, b"glUniformMatrix4fv\0"),
 
             gen_vertex_arrays: Self::load_function(&lib, b"glGenVertexArrays\0"),
             bind_vertex_array: Self::load_function(&lib, b"glBindVertexArray\0"),

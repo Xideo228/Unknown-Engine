@@ -15,19 +15,19 @@ use super::{
 };
 use crate::{
     graphics::{
-        backend::GraphicsBackend, mesh::*, shader::ShaderHandle,
+        backend::GraphicsBackend, mesh::*, shader::*,
     }, logger::*, platforms::Window
 };
 
 pub struct GL {
-    window: Window,
-    color: [f32; 4],
+    pub(crate) window: Window,
+    pub(crate) color: [f32; 4],
 
-    meshes: HashMap<u32, GLMesh>,
-    next_id_mesh: u32,
+    pub(crate) meshes: HashMap<u32, GLMesh>,
+    pub(crate) next_id_mesh: u32,
 
-    shaders: HashMap<u32, GLShaderProgram>,
-    next_id_shader: u32,
+    pub(crate) shaders: HashMap<u32, GLShaderProgram>,
+    pub(crate) next_id_shader: u32,
 
     pub(crate) functions: GLFunctions
 }
@@ -192,8 +192,11 @@ impl GraphicsBackend for GL {
         }
     }
 
-    fn create_shader(&mut self, vertex_source: &str, fragment_source: &str) -> Result<crate::graphics::shader::ShaderHandle, String> {
-        let program = create_shader_program(&self, vertex_source, fragment_source)?;
+    fn create_shader(&mut self, vertex: &ShaderSource, fragment: &ShaderSource) -> Result<crate::graphics::shader::ShaderHandle, String> {
+        if vertex.stage != ShaderStage::Vertex { return Err("Excepted a vertex shader source".into()); }
+        if fragment.stage != ShaderStage::Fragment { return Err("Excepted a fragment shader source".into()); }
+
+        let program = create_shader_program(&self, &vertex.source, &fragment.source)?;
         let handle = ShaderHandle::new(self.next_id_shader);
 
         self.shaders.insert(handle.id(), GLShaderProgram::new(program));
@@ -202,8 +205,10 @@ impl GraphicsBackend for GL {
         Ok(handle)
     }
     
-    fn destroy_shader(&mut self, handle: crate::graphics::shader::ShaderHandle) {
-        todo!()
+    fn destroy_shader(&mut self, handle: ShaderHandle) {
+        let Some(shader) = self.shaders.remove(&handle.id()) else { return; };
+
+        unsafe { (self.functions.delete_shader)(shader.id()); }
     }
 
     fn use_shader(&mut self, handle: ShaderHandle) {

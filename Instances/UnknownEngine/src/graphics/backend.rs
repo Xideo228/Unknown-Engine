@@ -10,7 +10,7 @@ pub trait GraphicsBackend {
 
     fn get_string(&mut self, text: u32) -> &str;
 
-    fn create_shader(&mut self, vertex_source: &str, fragment_source: &str) -> Result<ShaderHandle, String>;
+    fn create_shader(&mut self, vertex: &ShaderSource, fragment: &ShaderSource) -> Result<ShaderHandle, String>;
     fn destroy_shader(&mut self, handle: ShaderHandle);
     fn use_shader(&mut self, handle: ShaderHandle);
 

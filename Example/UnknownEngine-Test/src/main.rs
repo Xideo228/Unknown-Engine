@@ -1,7 +1,8 @@
+use unknown_engine::graphics::shader::ShaderSource;
 use unknown_engine::platforms::*;
 use unknown_engine::logger::*;
 use unknown_engine::graphics::{
-    *, mesh::*
+    *, mesh::*, shader::*
 };
 
 fn main() {
@@ -11,25 +12,14 @@ fn main() {
     let mut renderer = GraphicsFactory::create(GraphicsAPI::OpenGL, window);
 
     log(LevelOfLog::Info, format!("{}", renderer.get_string(0x1F02)));
-    renderer.set_clear_color(0.5, 0.0, 1.0, 1.0);
+    renderer.set_clear_color(0.0, 0.0, 0.0, 1.0);
 
-    let vertex = "#version 330 core\n
-    \nlayout (location = 0) in vec3 a_position;
-    \nlayout (location = 1) in vec3 a_color;\n
-    \nout vec3 v_color;
-    \nvoid main() {\n
-    \tgl_Position = vec4(a_position, 1.0);\n
-    \tv_color = a_color;
-    \n}";
+    let shader_path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
 
-    let fragment = "#version 330 core\n
-    \nin vec3 v_color;\n
-    \nout vec4 FragColor;\n
-    \nvoid main() {\n
-    \tFragColor = vec4(v_color, 1.0);
-    \n}";
+    let vertex = ShaderSource::from_file(ShaderStage::Vertex, shader_path.join("./assets/shaders/basic.vert")).expect("Failed to load Vertex shader");
+    let fragment = ShaderSource::from_file(ShaderStage::Fragment, shader_path.join("./assets/shaders/basic.frag")).expect("Failed to load Fragment shader");
 
-    let program = renderer.create_shader(vertex, fragment).expect("Failed to create shader");
+    let program = renderer.create_shader(&vertex, &fragment).expect("Failed to create shader");
 
     let vertices = vec![
         -0.5, -0.5, 0.0, 1.0, 0.0, 0.0,
@@ -62,4 +52,5 @@ fn main() {
     }
 
     renderer.destroy_mesh(mesh);
+    renderer.destroy_shader(program);
 }
