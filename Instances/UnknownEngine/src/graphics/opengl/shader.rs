@@ -158,3 +158,16 @@ fn set_uniform_float(gl: &mut GL, handle: ShaderHandle, name: &str, value: f32) 
     if location == -1 { return; }
     unsafe { (gl.functions.uniform_1f)(location, value); }
 }
+
+fn set_uniform_vec3(gl: &mut GL, handle: ShaderHandle, name: &str, value: [f32; 3]) {
+    let location = match get_uniform_location(gl, handle, name) {
+        Ok(location) => location,
+        Err(error) => {
+            log(LevelOfLog::Error, error);
+            return;
+        }
+    };
+
+    if location == -1 { return; }
+    unsafe { (gl.functions.uniform_3f)(location, value[0], value[1], value[2]); }
+}

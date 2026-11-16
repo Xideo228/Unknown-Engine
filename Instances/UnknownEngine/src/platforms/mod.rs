@@ -4,13 +4,13 @@ mod manager;
 mod platform;
 mod time;
 
-#[cfg(target_os = "windows")]
+#[cfg(target_family = "windows")]
 mod window;
 
-#[cfg(target_os = "windows")]
+#[cfg(target_family = "windows")]
 pub(crate) use time::time::get_timestamp;
 
-#[cfg(target_os = "unix")]
+#[cfg(target_family = "unix")]
 pub(crate) use time::time::get_timestamp;
 
 pub(crate) mod windows;

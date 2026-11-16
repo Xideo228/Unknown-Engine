@@ -1,8 +1,9 @@
-mod shader;
-mod shader_stage;
-mod shader_handle;
+mod instance;
 
-pub use shader::ShaderSource;
-pub use shader_stage::ShaderStage;
+mod asset;
 
-pub(crate) use shader_handle::ShaderHandle;
+mod source;
+pub use source::source::*;  
+
+mod types;
+pub use types::*;

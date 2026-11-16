@@ -193,8 +193,8 @@ impl GraphicsBackend for GL {
     }
 
     fn create_shader(&mut self, vertex: &ShaderSource, fragment: &ShaderSource) -> Result<crate::graphics::shader::ShaderHandle, String> {
-        if vertex.stage != ShaderStage::Vertex { return Err("Excepted a vertex shader source".into()); }
-        if fragment.stage != ShaderStage::Fragment { return Err("Excepted a fragment shader source".into()); }
+        if vertex.stage() != ShaderStage::Vertex { return Err("Excepted a vertex shader source".into()); }
+        if fragment.stage() != ShaderStage::Fragment { return Err("Excepted a fragment shader source".into()); }
 
         let program = create_shader_program(&self, &vertex.source, &fragment.source)?;
         let handle = ShaderHandle::new(self.next_id_shader);

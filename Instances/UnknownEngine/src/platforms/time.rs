@@ -23,7 +23,7 @@ pub mod time {
     }
 }
 
-#[cfg(target_os = "unix")]
+#[cfg(target_family = "unix")]
 pub mod time {
     use std::ffi::{
         c_char, c_void,
