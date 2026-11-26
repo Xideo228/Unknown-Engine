@@ -1,1 +1,1 @@
-pub(crate) mod core;
+mod property;

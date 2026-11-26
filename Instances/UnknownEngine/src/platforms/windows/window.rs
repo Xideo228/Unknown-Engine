@@ -1,5 +1,7 @@
 use std::ptr::{null, null_mut};
-use crate::platforms::{
+use crate::{
+    logger::*, 
+    platforms::{
         platform::*,
         window::Window,
         windows::{
@@ -9,14 +11,12 @@ use crate::platforms::{
             structs::*, user32::*
         },
         *
-    };
+    }};
 
 pub struct Win32Platform;
 
 impl Win32Platform {
-    pub fn new() -> Self {
-        Self
-    }
+    pub fn new() -> Self { Self }
 }
 
 impl Platform for Win32Platform {
@@ -40,12 +40,23 @@ impl Platform for Win32Platform {
         };
 
         unsafe {
-            RegisterClassW(&class);
+            let result = RegisterClassW(&class);
+            if result == 0 {
+                log(LevelOfLog::Critical, "Failed to register window class".to_string());
+            }
 
             let hwnd = CreateWindowExW(0, class_name.as_ptr(), title.as_ptr(),
                 WS_OVERLAPPEDWINDOW, CW_USERDEFAULT, CW_USERDEFAULT, settings.width as i32, settings.height as i32,
                 null_mut(), null_mut(), hinstance, null_mut());
+            
+            if hwnd.is_null() {
+                log(LevelOfLog::Critical, "Failed to create window".to_string());
+            }
+
             let hdc = GetDC(hwnd);
+            if hdc.is_null() {
+                log(LevelOfLog::Critical, "Failed to get DC for graphics".to_string());
+            }
 
             ShowWindow(hwnd, SW_SHOW);
             Window::new(hwnd, hdc, true)

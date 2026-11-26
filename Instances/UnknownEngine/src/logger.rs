@@ -2,7 +2,7 @@ use crate::platforms::get_timestamp;
 
 const RESET: &str = "\x1b[0m";
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum LevelOfLog {
     Info,
     Warning,
@@ -40,4 +40,7 @@ pub fn log(level: LevelOfLog, text: String) {
     let timestamp = get_timestamp();
 
     println!("{}{} {}{} | {}: {}", level.color(), timestamp, level.label(), RESET, file, text);
+    if level == LevelOfLog::Critical {
+        panic!("{} {} | {}: {}", timestamp, level.label(), file, text);
+    }
 }

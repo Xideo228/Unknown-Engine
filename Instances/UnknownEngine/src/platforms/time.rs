@@ -1,4 +1,4 @@
-#[cfg(target_os = "windows")]
+#[cfg(target_family = "windows")]
 pub mod time {
     #[repr(C)]
     struct SystemTime {

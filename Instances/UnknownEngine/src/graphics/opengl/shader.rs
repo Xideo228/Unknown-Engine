@@ -120,7 +120,7 @@ fn get_program_error(gl: &GL, program: u32) -> String {
         CStr::from_ptr(buffer.as_ptr() as *const c_char).to_string_lossy().into_owned()
     }
 }
-
+/*
 fn get_uniform_location(gl: &GL, handle: ShaderHandle, name: &str) -> Result<i32, String> {
     let shader = gl.shaders.get(&handle.id()).ok_or_else(|| {
         format!("Invalid shader handle: {}", handle.id())
@@ -170,4 +170,4 @@ fn set_uniform_vec3(gl: &mut GL, handle: ShaderHandle, name: &str, value: [f32; 
 
     if location == -1 { return; }
     unsafe { (gl.functions.uniform_3f)(location, value[0], value[1], value[2]); }
-}
+}*/

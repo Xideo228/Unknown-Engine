@@ -1,8 +1,10 @@
 mod settings;
-mod event;
 mod manager;
 mod platform;
 mod time;
+
+#[cfg(test)]
+mod tests;
 
 #[cfg(target_family = "windows")]
 mod window;

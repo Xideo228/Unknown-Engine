@@ -192,7 +192,7 @@ impl GraphicsBackend for GL {
         }
     }
 
-    fn create_shader(&mut self, vertex: &ShaderSource, fragment: &ShaderSource) -> Result<crate::graphics::shader::ShaderHandle, String> {
+    /*fn create_shader(&mut self, vertex: &ShaderSource, fragment: &ShaderSource) -> Result<crate::graphics::shader::ShaderHandle, String> {
         if vertex.stage() != ShaderStage::Vertex { return Err("Excepted a vertex shader source".into()); }
         if fragment.stage() != ShaderStage::Fragment { return Err("Excepted a fragment shader source".into()); }
 
@@ -220,7 +220,7 @@ impl GraphicsBackend for GL {
         let program = shader.id();
 
         use_shader(&self, program);
-    }
+    }*/
 
     fn create_mesh(&mut self, data: &MeshData) -> Result<MeshHandle, String> {
         let vertex_count = i32::try_from(data.vertex_count()).map_err(|_| "Too many vertices".to_string())?;

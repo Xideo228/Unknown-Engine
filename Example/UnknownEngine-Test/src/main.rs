@@ -1,4 +1,4 @@
-use unknown_engine::graphics::shader::ShaderSource;
+//use unknown_engine::graphics::shader::ShaderSource;
 use unknown_engine::platforms::*;
 use unknown_engine::logger::*;
 use unknown_engine::graphics::{
@@ -16,10 +16,10 @@ fn main() {
 
     let shader_path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
 
-    let vertex = ShaderSource::from_file(ShaderStage::Vertex, shader_path.join("./assets/shaders/basic.vert")).expect("Failed to load Vertex shader");
-    let fragment = ShaderSource::from_file(ShaderStage::Fragment, shader_path.join("./assets/shaders/basic.frag")).expect("Failed to load Fragment shader");
+    //let vertex = ShaderSource::from_file(ShaderStage::Vertex, shader_path.join("./assets/shaders/basic.vert")).expect("Failed to load Vertex shader");
+    //let fragment = ShaderSource::from_file(ShaderStage::Fragment, shader_path.join("./assets/shaders/basic.frag")).expect("Failed to load Fragment shader");
 
-    let program = renderer.create_shader(&vertex, &fragment).expect("Failed to create shader");
+    //let program = renderer.create_shader(&vertex, &fragment).expect("Failed to create shader");
 
     let vertices = vec![
         -0.5, -0.5, 0.0, 1.0, 0.0, 0.0,
@@ -44,7 +44,7 @@ fn main() {
     while window.is_running() {
         renderer.begin_frame();
 
-        renderer.use_shader(program);
+        //renderer.use_shader(program);
         renderer.draw_mesh(mesh);
 
         renderer.end_frame();
@@ -52,5 +52,5 @@ fn main() {
     }
 
     renderer.destroy_mesh(mesh);
-    renderer.destroy_shader(program);
+    //renderer.destroy_shader(program);
 }
